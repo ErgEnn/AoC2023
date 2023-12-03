@@ -17,5 +17,15 @@ namespace AoC.Util
         {
             return string.Join(",", values);
         }
+
+        public static int ClampMin(this int i, int min)
+        {
+            return Math.Max(i, min);
+        }
+
+        public static int ClampMax(this int i, int max)
+        {
+            return Math.Min(i, max);
+        }
     }
 }

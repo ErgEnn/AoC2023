@@ -131,9 +131,57 @@ namespace AoC.Util
             enumerator.Dispose();
         }
 
+        public static IEnumerable<(string? prev, string current, string? next)> AdjacentLines(
+            this IEnumerable<string> lines)
+        {
+            var enumerator = lines.GetEnumerator();
+            string? prev = null;
+            string? next = null;
+            enumerator.MoveNext();
+            var current = enumerator.Current;
+            enumerator.MoveNext();
+            next = enumerator.Current;
+            yield return (prev, current, next);
+            while (next != null)
+            {
+                prev = current;
+                current = next;
+                if (enumerator.MoveNext())
+                    next = enumerator.Current;
+                else
+                    next = null;
+                yield return (prev, current, next);
+            }
+        }
+
         public static bool IsNullOrWhitespace(this string s)
         {
             return string.IsNullOrWhiteSpace(s);
+        }
+
+        public static ReadOnlySpan<char> ClampingSpan(this string s, int start, int length)
+        {
+            if (start + length > s.Length)
+            {
+                length = s.Length - start;
+            }
+            return s.AsSpan(start.ClampMin(0), length);
+        }
+
+        public static ReadOnlySpan<char> ClampingSpan(this string s, Range range)
+        {
+            var clampedLength = (range.End.Value).ClampMax(s.Length);
+            return s.AsSpan(range.Start.Value.ClampMin(0), clampedLength);
+        }
+
+        public static int ToInt(this ReadOnlySpan<char> chrs)
+        {
+            return int.Parse(chrs);
+        }
+
+        public static char? SafeCharAt(this string s, int i)
+        {
+            return i.IsBetween(0, s.Length - 1) ? s[i] : null;
         }
 
     }

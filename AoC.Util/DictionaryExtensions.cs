@@ -15,6 +15,13 @@ namespace AoC.Util
             else
                 dict.Add(key, value);
         }
+        public static void CreateOrAppend<TKey, TValue>(this IDictionary<TKey, List<TValue>> dict, TKey key, TValue value)
+        {
+            if(dict.ContainsKey(key))
+                dict[key].Add(value);
+            else
+                dict.Add(key, new List<TValue>(){value});
+        }
 
         public static IEnumerable<TVal> ForKeys<TKey, TVal>(this IDictionary<TKey, TVal> dict, params TKey[] keys)
         {
