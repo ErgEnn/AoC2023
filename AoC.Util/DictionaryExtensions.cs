@@ -16,12 +16,12 @@ namespace AoC.Util
                 dict.Add(key, value);
         }
 
-        public static void Increment<TKey>(this IDictionary<TKey, int> dict, TKey key)
+        public static void Increment<TKey>(this IDictionary<TKey, int> dict, TKey key, int step = 1)
         {
             if(dict.ContainsKey(key))
-                dict[key] = dict[key]+1;
+                dict[key] = dict[key]+step;
             else
-                dict.Add(key, 1);
+                dict.Add(key, step);
         }
         public static void CreateOrAppend<TKey, TValue>(this IDictionary<TKey, List<TValue>> dict, TKey key, TValue value)
         {

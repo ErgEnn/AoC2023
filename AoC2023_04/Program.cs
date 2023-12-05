@@ -1,4 +1,5 @@
 ﻿using AoC.Util;
+using System;
 
 var exampleInput =
     """
@@ -37,24 +38,21 @@ string Solve2(string input)
 {
     var lines = input.Lines();
     var cardCnt = new Dictionary<int, int>();
-    var totalPnts = lines.Select((line, index) =>
+
+    foreach ((int index, string line)  in lines.Indexed())
     {
         cardCnt.Increment(index);
-        for (int _ = 0; _ < cardCnt[index]; _++)
+
+        var (left, right) = line.Deconstruct<string, string>(" | ");
+        var (_, cardNosStr) = left.Deconstruct<string, string>(":");
+        var winningNos = right.Split(' ').Where(s => !s.IsNullOrWhitespace());
+        var cardNos = cardNosStr.Split(' ').Where(s => !s.IsNullOrWhitespace());
+        var winningCnt = winningNos.Select(winninNo => cardNos.Contains(winninNo)).Count(b => b);
+        for (int i = winningCnt; i > 0; i--)
         {
-            var (left, right) = line.Deconstruct<string, string>(" | ");
-            var (_, cardNosStr) = left.Deconstruct<string, string>(":");
-            var winningNos = right.Split(' ').Where(s => !s.IsNullOrWhitespace());
-            var cardNos = cardNosStr.Split(' ').Where(s => !s.IsNullOrWhitespace());
-            var winningCnt = winningNos.Select(winninNo => cardNos.Contains(winninNo)).Count(b => b);
-            for (int i = winningCnt; i > 0; i--)
-            {
-                cardCnt.Increment(index+i);
-            }
+            cardCnt.Increment(index + i, cardCnt[index]);
         }
+    }
 
-        return 0;
-
-    }).Count();
     return cardCnt.Values.Sum(i => i).ToString();
 }

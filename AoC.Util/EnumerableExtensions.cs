@@ -113,7 +113,7 @@ namespace AoC.Util
             }
         }
 
-        public static IEnumerable<(T i1, T i2)> Pairwise<T>(this IEnumerable<T> values)
+        public static IEnumerable<(T i1, T i2)> Pairwise<T>(this IEnumerable<T> values, bool overlapping = true)
         {
             using var enumerator = values.GetEnumerator();
             enumerator.MoveNext();
@@ -124,6 +124,8 @@ namespace AoC.Util
                     yield break;
                 var i2 = enumerator.Current;
                 yield return (i1, i2);
+                if (!overlapping && !enumerator.MoveNext())
+                    yield break;
             }
         }
 
