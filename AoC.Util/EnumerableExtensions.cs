@@ -143,5 +143,23 @@ namespace AoC.Util
             return string.Join(separator, chars);
         }
 
+        // LCM(2,3) = 6, LCM(2,3,4) = 12
+        public static long LCM(this IEnumerable<long> nums)
+        {
+            return nums.Aggregate((x, y) => Math.Abs(x * y) / GCD(x, y));
+        }
+
+        // GCD(24, 18) = 6
+        private static long GCD(long x, long y)
+        {
+            while (y != 0)
+            {
+                long temp = y;
+                y = x % y;
+                x = temp;
+            }
+
+            return x;
+        }
     }
 }
