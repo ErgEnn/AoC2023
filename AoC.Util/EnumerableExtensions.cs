@@ -161,5 +161,15 @@ namespace AoC.Util
 
             return x;
         }
+
+        public static IEnumerable<int> ToInts(this IEnumerable<string> numbers)
+        {
+            return numbers.Select(s => s.ToInt());
+        }
+
+        public static string Dump<T>(this IEnumerable<T> items)
+        {
+            return string.Join(',', items);
+        }
     }
 }
