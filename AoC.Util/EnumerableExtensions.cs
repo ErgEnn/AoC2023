@@ -171,5 +171,10 @@ namespace AoC.Util
         {
             return string.Join(',', items);
         }
+
+        public static int IndexOf<T>(this T[] arr, T val)
+        {
+            return Array.IndexOf(arr, val);
+        }
     }
 }
