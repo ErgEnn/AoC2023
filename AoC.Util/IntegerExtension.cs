@@ -26,5 +26,12 @@
         {
             return Math.Min(i, max);
         }
+
+        public static Range ToAbs(this Range rng)
+        {
+            if (rng.Start.Value > rng.End.Value)
+                return rng.End..rng.Start;
+            return rng;
+        }
     }
 }

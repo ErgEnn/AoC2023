@@ -48,8 +48,8 @@ var exampleInput3 =
 
 var realInput = File.ReadAllText("input.txt");
 
-Console.WriteLine($"Answer 1: {Solve1(realInput)}");
-Console.WriteLine($"Answer 2: {Solve2(realInput)}");
+Console.WriteLine($"Answer 1: {Solve1(exampleInput2)}");
+Console.WriteLine($"Answer 2: {Solve2(exampleInput2)}");
 
 (int, int)[] FindPipePath(string input)
 {
@@ -114,7 +114,7 @@ string Solve2(string input)
     var pipes = FindPipePath(input);
     var lines = input.Lines();
     var insides = 0;
-    for (int y = 0; y < lines.Length; y++)
+    for (int y = 1; y < lines.Length-1; y++)
     {
         for (int x = 0; x < lines[y].Length; x++)
         {
@@ -126,7 +126,6 @@ string Solve2(string input)
                 if (pipes.Contains((i, y)))
                 {
                     var pipeIndex = pipes.IndexOf((i, y));
-                    // Missing edge-cases for bottom row
                     if (pipes[(pipeIndex + 1) % pipes.Length] == (i, y + 1))
                         windings++;
                     if (pipes[(pipeIndex - 1 + pipes.Length) % pipes.Length] == (i, y + 1))
