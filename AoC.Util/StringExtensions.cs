@@ -26,13 +26,25 @@ namespace AoC.Util
             }
         }
 
-        public static (T1 s1, T2 s2) Deconstruct<T1, T2>(this string s, string separator = " ")
+        public static (T1 s1, T2 s2) Deconstruct<T1, T2>(this string s, string separator = " ", string innerSeparator = ",")
         {
             return s.Split(separator) switch
             {
-                [var s1, var s2] => (Convert<T1>(s1), Convert<T2>(s2)),
+                [var s1, var s2] => (Convert<T1>(s1, innerSeparator), Convert<T2>(s2, innerSeparator)),
             };
         }
+
+        public static (T1 s1, T2 s2) Deconstruct<T1, T2>(this string s, FormattableString pattern)
+        {
+            InitializeRegex(pattern);
+
+            var matches = _regexCache[pattern.Format].Match(s);
+
+            return (
+                Convert<T1>(matches.Groups[1].Value, pattern.GetArguments()[0]),
+                Convert<T2>(matches.Groups[2].Value, pattern.GetArguments()[1]));
+        }
+
         public static (T1 s1, T2 s2, T3 s3) Deconstruct<T1, T2, T3>(this string s, char separator = ' ')
         {
             return s.Split(separator) switch
@@ -107,6 +119,8 @@ namespace AoC.Util
         {
             if(typeof(T) == typeof(string[]) && arg is string separator)
                 return (T)System.Convert.ChangeType(s.Split(separator), typeof(T));
+            if(typeof(T) == typeof(int[]) && arg is string separator2)
+                return (T)System.Convert.ChangeType(s.Split(separator2).ToInts().ToArray(), typeof(T));
             return (T) System.Convert.ChangeType(s, typeof(T));
         }
 

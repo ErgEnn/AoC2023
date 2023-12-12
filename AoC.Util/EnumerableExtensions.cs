@@ -187,5 +187,28 @@ namespace AoC.Util
                 }
             }
         }
+
+        public static T? Pop<T>(this IEnumerator<T> enumerator) where T: class
+        {
+            if (enumerator.MoveNext())
+                return enumerator.Current;
+            return null;
+        }
+
+        public static char? Pop(this CharEnumerator enumerator)
+        {
+            if (enumerator.MoveNext())
+                return enumerator.Current;
+            return null;
+        }
+
+        public static IEnumerable<T> Print<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.Select(arg =>
+            {
+                Console.WriteLine(arg);
+                return arg;
+            });
+        }
     }
 }
