@@ -198,6 +198,24 @@ namespace AoC.Util
             return i.IsBetween(0, s.Length - 1) ? s[i] : null;
         }
 
+        public static string Repeat(this string s, int count)
+        {
+            return Enumerable.Repeat(s, count).Join("");
+        }
+
+        public static IEnumerable<string> Transpose(this string[] arr)
+        {
+            for (int i = 0; i < arr[0].Length; i++)
+            {
+                yield return arr.Select(line => line[i]).Join("");
+            }
+        }
+
+        public static IEnumerable<string> Transpose(this IEnumerable<string> rows)
+        {
+            return Transpose(rows.ToArray());
+        }
+
     }
     
 }
