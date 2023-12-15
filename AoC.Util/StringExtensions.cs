@@ -216,6 +216,11 @@ namespace AoC.Util
             return Transpose(rows.ToArray());
         }
 
+        public static int ToInt(this char c)
+        {
+            return int.Parse(c.ToString());
+        }
+
     }
     
 }

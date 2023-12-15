@@ -210,5 +210,16 @@ namespace AoC.Util
                 return arg;
             });
         }
+
+        public static TStorage? SelectWithStorage<T, TStorage>(this IEnumerable<T> enumerable, Func<TStorage, T, TStorage> func)
+        {
+            TStorage storage = default;
+            foreach (var arg in enumerable)
+            {
+                storage = func(storage, arg);
+            }
+
+            return storage;
+        }
     }
 }
