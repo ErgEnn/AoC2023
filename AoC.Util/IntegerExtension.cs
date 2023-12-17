@@ -2,9 +2,9 @@
 {
     public static class IntegerExtension
     {
-        public static bool IsBetween(this int val, int min, int max)
+        public static bool IsBetween(this int val, int minInclusive, int maxInclusive)
         {
-            return val >= min && val <= max;
+            return val >= minInclusive && val <= maxInclusive;
         }
 
         public static bool IsBetween(this long val, long min, long max)
