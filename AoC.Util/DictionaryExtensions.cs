@@ -50,5 +50,14 @@ namespace AoC.Util
                 dict.Add(key,new HashSet<TVal>(){value});
             }
         }
+
+        public static TVal LazyLoad<TKey, TVal>(this IDictionary<TKey, TVal> dict, TKey key, Func<TVal> generator)
+        {
+            if (dict.TryGetValue(key, out var val))
+                return val;
+            val = generator();
+            dict.Add(key,val);
+            return val;
+        }
     }
 }
