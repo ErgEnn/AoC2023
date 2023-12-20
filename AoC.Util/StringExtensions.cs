@@ -124,9 +124,9 @@ namespace AoC.Util
             return (T) System.Convert.ChangeType(s, typeof(T));
         }
 
-        public static int ToInt(this string s)
+        public static int ToInt(this string s, int @base = 10)
         {
-            return int.Parse(s);
+            return System.Convert.ToInt32(s, @base);
         }
 
         public static long ToLong(this string s)
@@ -219,6 +219,24 @@ namespace AoC.Util
         public static int ToInt(this char c)
         {
             return int.Parse(c.ToString());
+        }
+
+        public static (int maxX, int maxY) GetLastCharIndex(this string[] arr)
+        {
+            return (arr[^1].Length-1, arr.Length-1);
+        }
+
+        public static void PrettyPrint(this string[] arr, Func<((int, int), char), char> converter)
+        {
+            for (int y = 0; y < arr.Length; y++)
+            {
+                for (int x = 0; x < arr[y].Length; x++)
+                {
+                    Console.Write(converter(((x, y), arr[y][x])));
+                }
+
+                Console.WriteLine();
+            }
         }
 
     }

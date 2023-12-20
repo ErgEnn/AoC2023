@@ -113,15 +113,27 @@ namespace AoC.Util
             }
         }
 
-        public static IEnumerable<(T i1, T i2)> Pairwise<T>(this IEnumerable<T> values, bool overlapping = true)
+        public static IEnumerable<(T i1, T i2)> Pairwise<T>(this IEnumerable<T> values, bool overlapping = true, bool loop = false)
         {
             using var enumerator = values.GetEnumerator();
             enumerator.MoveNext();
+            var firstAssigned = false;
+            var first = default(T);
             while (true)
             {
                 var i1 = enumerator.Current;
-                if(!enumerator.MoveNext())
+                if (!firstAssigned)
+                {
+                    first = i1;
+                    firstAssigned = true;
+                }
+
+                if (!enumerator.MoveNext())
+                {
+                    if (loop)
+                        yield return (i1, first);
                     yield break;
+                }
                 var i2 = enumerator.Current;
                 yield return (i1, i2);
                 if (!overlapping && !enumerator.MoveNext())
